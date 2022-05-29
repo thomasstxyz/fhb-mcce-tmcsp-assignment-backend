@@ -21,6 +21,8 @@ Dabei wird auf den Editor und die wichtigsten Features eingegangen.
 \section{Dokumentation der Projektumsetzung}
 
 \subsection{Schritt-für-Schritt-Anleitung}
+
+\subsubsection{CI Pipeline \& Unit Tests}
 Zuerst wird das Basis-Repository 
 \url{https://github.com/t-stefan/FHB-Assignment-Backend}
 im GitHub Webinterface
@@ -170,5 +172,56 @@ Diese müssen nur noch von gitpod zurück ins Repository gepusht werden.
 	$ git commit -m "add unit tests with mocha and superset"
 	$ git push
 \end{verbatim}
+
+
+\subsubsection{Linting}
+Zuerst installieren wir die ESLint:
+
+\begin{verbatim}
+	$ npm install eslint --save-dev
+\end{verbatim}
+
+\noindent
+Dann erstellen wir eine Konfigurationsdatei
+
+\begin{verbatim}
+	$ npm init @eslint/config
+\end{verbatim}
+
+\noindent
+und folgen dem interaktiven Installations-Setup. \\
+
+\noindent Als nächstes bearbeiten wir die Datei \verb|.eslintrc.json|
+und fügen unter dem "rules"-Objekt folgendes ein:
+\verb|"@typescript-eslint/no-var-requires": 0| \\
+
+\noindent
+Jetzt kann der Lint-Prozess einmal ausgeführt werden:
+
+\begin{verbatim}
+	$ npx eslint --fix index.js
+\end{verbatim}
+
+\noindent
+Nun bearbeiten wir die Datei \verb|package.json| und setzen 
+die Versionen von drei Paketen neu.
+
+\begin{verbatim}
+"@typescript-eslint/eslint-plugin": "^5.0.0",
+"@typescript-eslint/parser": "^5.0.0",
+"eslint": "^8.1.0",
+\end{verbatim}
+
+\noindent
+Im Anschluss installieren wir die Abhängigkeiten.
+
+\begin{verbatim}
+	$ npm install
+\end{verbatim}
+
+%didn't work out...
+%.. reverted all commits related to linting.
+
+
 
 
