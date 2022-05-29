@@ -44,7 +44,131 @@ Hier wählen wir den Workflow \verb|Node.js by GitHub Actions|
 Nun öffnet sich ein beispielhafter Workflow als neue Datei im Editor.
 Mit \verb|Start commit| speichern wir diesen.
 Anschließend kann zu \url{https://github.com/thomasstxyz/fhb-mcce-tmcsp-assignment-backend/actions/workflows/node.js.yml}
-navigiert werden und der erste Durchlauf unseres Workflows live angesehen werden.
+navigiert werden und der erste Durchlauf unseres Workflows live angesehen werden. \\
 
+\noindent
+Als nächsten Schritt laden wir unser Repository in einer gitpod.io Workspace
+(\url{https://gitpod.io/#https://github.com/thomasstxyz/fhb-mcce-tmcsp-assignment-backend}).
+Nachdem die Workspace fertig geladen ist, initialisieren wir mit 
+
+\begin{verbatim}
+	$ npm install
+\end{verbatim}
+
+\noindent
+und starten die Applikation mit 
+\begin{verbatim}
+	$ npm start
+\end{verbatim}
+
+\noindent
+Nun öffnen wir ein zweites Terminal und installieren Mocha
+\cite{mochajsorgWebsite} mit dem Befehl
+
+\begin{verbatim}
+	$ npm install mocha --save-dev
+\end{verbatim}
+
+\noindent
+Nach der Installation von Mocha, öffnen wir die Datei \verb|package.json|
+und ändern den Wert von \verb|scripts.test| auf \verb|"mocha --exit"|.
+Wir navigieren zum ursprünglichen Terminal, und brechen den Prozess mit der
+Tastenkombination \verb|Ctrl+c| ab. \\
+
+\noindent
+Anschließend hängen wir folgende Zeile an das Ende der Datei \verb|index.js|:
+
+\begin{verbatim}
+	module.exports = app;
+\end{verbatim}
+
+\noindent
+Weiters installieren wir das Modul \verb|superset|.
+
+\begin{verbatim}
+	$ npm install --save-dev supertest
+\end{verbatim}
+
+\noindent
+Nun legen wir ein Verzeichnis namens \verb|test| an.
+In diesem Verzeichnis legen wir eine Datei \verb|index.test.js| 
+mit folgendem Inhalt an:
+
+\begin{verbatim}
+const request = require('supertest');
+const app = require('../index');
+
+describe('GET /', () => {
+	it('should return "Hello World!"', () => {
+		return request(app)
+		.get('/')
+		.expect('<h1>Hello World!</h1>')
+	});
+	
+	it('should return error 404, if /nonexistentpath is requested', () => {
+		return request(app)
+		.get('/non/existent/path')
+		.expect(404)
+	});
+});
+
+describe('POST /api/notes', () => {
+	it('should return json {"error":"content missing"}, if request body is missing', () => {
+		return request(app)
+		.post('/api/notes')
+		.expect('{"error":"content missing"}')
+	});
+	let query = {
+		content: "my super cool note",
+		important: true
+	}
+	it('should return 200, if json was requested with content and important fields', () => {
+		return request(app)
+		.post('/api/notes')
+		.set('Content-type', 'application/json')
+		.send( query )
+		.expect(200);
+	});
+});
+
+describe('GET /api/notes', () => {
+	it('should return 200 and Content-Type: application/json', () => {
+		return request(app)
+		.get('/api/notes')
+		.expect(200)
+		.expect('Content-Type',/json/)
+	});
+});
+
+describe('GET /api/notes/:id', () => {
+	it('should return 200 and known data, if existing item with id 1 is requested', () => {
+		return request(app)
+		.get('/api/notes/1')
+		.expect(200)
+		.expect('Content-Type',/json/)
+		.expect('{"id":1,"content":"HTML is easy","date":"2022-01-10T17:30:31.098Z","important":true}')
+	});
+});
+\end{verbatim}
+
+\noindent
+Dies sind unsere Tests, welche mit dem Befehl
+
+\begin{verbatim}
+	$ npm run test
+\end{verbatim}
+
+\noindent
+ausgeführt werden können. \\
+
+\noindent
+Schließlich haben wir alle nötigen Änderungen vorgenommen.
+Diese müssen nur noch von gitpod zurück ins Repository gepusht werden.
+
+\begin{verbatim}
+	$ git add .
+	$ git commit -m "add unit tests with mocha and superset"
+	$ git push
+\end{verbatim}
 
 
