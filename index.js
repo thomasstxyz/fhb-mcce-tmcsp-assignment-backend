@@ -54,7 +54,7 @@ app.post('/api/notes', (request, response) => {
 
   notes = notes.concat(note);
 
-  response.json(note);
+  return response.json(note);
 });
 
 app.get('/api/notes', (req, res) => {
@@ -70,6 +70,7 @@ app.delete('/api/notes/:id', (request, response) => {
 
 app.get('/api/notes/:id', (request, response) => {
   const id = Number(request.params.id);
+  // eslint-disable-next-line no-shadow
   const note = notes.find((note) => note.id === id);
 
   if (note) {
@@ -81,6 +82,7 @@ app.get('/api/notes/:id', (request, response) => {
 
 const PORT = 3001;
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`Server running on port ${PORT}`);
 });
 
