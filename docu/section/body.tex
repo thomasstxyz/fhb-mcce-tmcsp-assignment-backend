@@ -191,36 +191,102 @@ Dann erstellen wir eine Konfigurationsdatei
 \noindent
 und folgen dem interaktiven Installations-Setup. \\
 
-\noindent Als nächstes bearbeiten wir die Datei \verb|.eslintrc.json|
-und fügen unter dem "rules"-Objekt folgendes ein:
-\verb|"@typescript-eslint/no-var-requires": 0| \\
-
 \noindent
-Jetzt kann der Lint-Prozess einmal ausgeführt werden:
+Dies erzeugt die Datei \verb|.eslintrc.js| mit folgendem Inhalt:
 
 \begin{verbatim}
+module.exports = {
+env: {
+browser: true,
+es2021: true,
+},
+extends: [
+'airbnb-base',
+],
+parserOptions: {
+ecmaVersion: 'latest',
+sourceType: 'module',
+},
+rules: {
+},
+};
+\end{verbatim}
+
+\noindent
+Jetzt kann der Lint-Prozess ausgeführt werden:
+
+\begin{verbatim}
+	$ npx eslint index.js
+\end{verbatim}
+
+\noindent
+Mit \verb|--fix| können wir dem Programm sagen,
+dass es versuchen soll, die Änderungen selbst
+automatisch vorzunehmen.
+
+\begin{verbatim}
+	$ npx eslint --fix-dry-run index.js
 	$ npx eslint --fix index.js
 \end{verbatim}
 
 \noindent
-Nun bearbeiten wir die Datei \verb|package.json| und setzen 
-die Versionen von drei Paketen neu.
+Schließlich lassen wir den Lint-Prozess in unserer
+als Teil unserer CI Pipeline laufen.
+Dazu fügen wir den Befehl in \verb|.github/workflows/node.js.yml|
+direkt nach der Zeile mit \verb|npm ci| ein:
 
 \begin{verbatim}
-"@typescript-eslint/eslint-plugin": "^5.0.0",
-"@typescript-eslint/parser": "^5.0.0",
-"eslint": "^8.1.0",
+...
+- run: npm ci
+- run: npx eslint --fix-dry-run index.js
+- run: npm run build --if-present
+...
 \end{verbatim}
 
 \noindent
-Im Anschluss installieren wir die Abhängigkeiten.
+Als letztes müssen wir die Änderungen noch zurück in unser
+Repository pushen.
 
 \begin{verbatim}
-	$ npm install
+$ git add .
+$ git commit -m "add ESLint syntax & style linting to workflow"
+$ git push
 \end{verbatim}
 
-%didn't work out...
-%.. reverted all commits related to linting.
+
+\subsubsection{Dependabot version updates}
+Dependabot kann für uns automatisch Versionen updaten.
+Wir erstellen eine Datei \verb|.github/dependabot.yml| 
+mit folgendem Inhalt:
+
+\begin{verbatim}
+version: 2
+updates:
+# Enable version updates for npm
+- package-ecosystem: "npm"
+# Look for `package.json` and `lock` files in the `root` directory
+directory: "/"
+# Check the npm registry for updates every day (weekdays)
+schedule:
+interval: "daily"
+\end{verbatim}
+
+\noindent
+und pushen unsere Änderungen ins Repository:
+
+\begin{verbatim}
+$ git add .
+$ git commit -m "add .github/dependabot.yml"
+$ git push
+\end{verbatim}
+
+\noindent
+Dependabot öffnet nun selbstständig Pull Requests,
+welche die Versionen der npm-Pakete updaten.
+
+
+
+
 
 
 
