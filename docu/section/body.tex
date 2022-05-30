@@ -284,6 +284,92 @@ $ git push
 Dependabot öffnet nun selbstständig Pull Requests,
 welche die Versionen der npm-Pakete updaten.
 
+\subsubsection{Statische Codeanalyse mit Sonarqube}
+Hierfür öffnen wir \url{https://github.com/marketplace/sonarcloud}
+im Browser und erstellen uns einen Account.
+Anschließend wählen wir aus, auf welche Repositories
+SonarCloud zugreifen darf.
+Um eine Analyse zu starten wählen wir das gewünschte Projekt aus 
+und klicken auf \verb|Set up|.
+Danach wird das Projekt analysiert, dies kann abhängig von der Größe des Projekts einige Zeit in
+Anspruch nehmen. \\
+
+\noindent
+Jetzt wollen wir die statische Code-Analyse in einem
+GitHub Workflow als Teil unserer CI Pipeline definieren. \\
+
+\noindent
+Zuerst erstellen wir ein Authentication Token in 
+SonarCloud \url{https://sonarcloud.io/account/security/}.
+Dazu vergeben wir einen beliebigen Namen und bestätigen mit 
+dem Button \verb|Generate|.
+Danach wird unser Token ausgegeben. 
+Dieses kopieren wir in unsere Zwischenablage.
+Nun erstellen wir auf GitHub in unserem Repository
+ein Secret unter \url{https://github.com/thomasstxyz/fhb-mcce-tmcsp-assignment-backend/settings/secrets/actions}.
+Der Name muss dabei \verb|SONAR_TOKEN| entsprechen,
+und als Value fügen wir unser Token aus der Zwischenablage ein. \\
+
+\noindent
+Nun legen wir eine neue Datei \verb|sonar-project.properties|
+im Rootverzeichnis unserer Repository an, mit folgendem Inhalt:
+
+\begin{verbatim}
+sonar.organization=<replace with your SonarCloud organization key>
+sonar.projectKey=<replace with the key generated when setting up the project on SonarCloud>
+
+# relative paths to source directories. More details and properties are described
+# in https://sonarcloud.io/documentation/project-administration/narrowing-the-focus/
+sonar.sources=.
+\end{verbatim}
+
+\noindent
+Die Variablen \verb|sonar.organization| und
+\verb|sonar.projectKey| ändern wir.
+Unseren SonarCloud Organization Key können wir unter
+\url{https://sonarcloud.io/account/organizations}
+einsehen. 
+Den Project Key sehen wir uns ebenfalls im SonarCloud 
+Web Interface an. \\
+
+\noindent
+Als nächstes legen wir die Datei
+\verb|.github/workflows/static-code-analysis.yml| 
+für den Workflow an, mit folgendem Inhalt:
+
+\begin{verbatim}
+on:
+# Trigger analysis when pushing in main or pull requests, and when creating
+# a pull request.
+push:
+branches:
+- main
+pull_request:
+types: [opened, synchronize, reopened]
+name: Main Workflow
+jobs:
+sonarcloud:
+runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@v2
+with:
+# Disabling shallow clone is recommended for improving relevancy of reporting
+fetch-depth: 0
+- name: SonarCloud Scan
+uses: sonarsource/sonarcloud-github-action@main
+env:
+GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+\end{verbatim}
+
+\noindent
+Schließlich pushen wir unsere Änderungen ins Repository:
+
+\begin{verbatim}
+$ git add .
+$ git commit -m "add workflow for static code analysis with SonarCloud"
+$ git push
+\end{verbatim}
 
 
 
