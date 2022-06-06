@@ -29,28 +29,26 @@ im GitHub Webinterface
 \url{https://github.com/new/import} 
 importiert.
 
-% TODO: search & replace all  thomasstxyz/fhb-mcce-tmcsp-assignment-backend  with <account/repository>
-
 \noindent
 Als nächstes müssen die GitHub Actions für das Repository unter
-\url{https://github.com/thomasstxyz/fhb-mcce-tmcsp-assignment-backend/settings/actions}
+\url{https://github.com/<account>/<repository>/settings/actions}
 aktiviert werden.
 Wir wählen hierfür den Punkt \verb|Allow all actions and reusable workflows| aus
 und drücken anschließend auf \verb|Save|. \\
 
 \noindent
-Nun kann zu \url{https://github.com/thomasstxyz/fhb-mcce-tmcsp-assignment-backend/actions/new}
+Nun kann zu \url{https://github.com/<account>/<repository>/actions/new}
 navigiert werden.
 Hier wählen wir den Workflow \verb|Node.js by GitHub Actions| 
-(\url{https://github.com/thomasstxyz/fhb-mcce-tmcsp-assignment-backend/new/main?filename=.github%2Fworkflows%2Fnode.js.yml&workflow_template=node.js}).
+(\url{https://github.com/<account>/<repository>/new/main?filename=.github%2Fworkflows%2Fnode.js.yml&workflow_template=node.js}).
 Nun öffnet sich ein beispielhafter Workflow als neue Datei im Editor.
 Mit \verb|Start commit| speichern wir diesen.
-Anschließend kann zu \url{https://github.com/thomasstxyz/fhb-mcce-tmcsp-assignment-backend/actions/workflows/node.js.yml}
+Anschließend kann zu \url{https://github.com/<account>/<repository>/actions/workflows/node.js.yml}
 navigiert werden und der erste Durchlauf unseres Workflows live angesehen werden. \\
 
 \noindent
 Als nächsten Schritt laden wir unser Repository in einer gitpod.io Workspace
-(\url{https://gitpod.io/#https://github.com/thomasstxyz/fhb-mcce-tmcsp-assignment-backend}).
+(\url{https://gitpod.io/#https://github.com/<account>/<repository>}).
 Nachdem die Workspace fertig geladen ist, initialisieren wir mit 
 
 \begin{verbatim}
@@ -306,7 +304,7 @@ dem Button \verb|Generate|.
 Danach wird unser Token ausgegeben. 
 Dieses kopieren wir in unsere Zwischenablage.
 Nun erstellen wir auf GitHub in unserem Repository
-ein Secret unter \url{https://github.com/thomasstxyz/fhb-mcce-tmcsp-assignment-backend/settings/secrets/actions}.
+ein Secret unter \url{https://github.com/<account>/<repository>/settings/secrets/actions}.
 Der Name muss dabei \verb|SONAR_TOKEN| entsprechen,
 und als Value fügen wir unser Token aus der Zwischenablage ein. \\
 
