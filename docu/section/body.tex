@@ -8,14 +8,19 @@ grob miteinander vergleichen.
 Dabei wird auf den Editor und die wichtigsten Features eingegangen.
 
 \subsection{github.dev}
-% TODO
+Der webbasierte Editor von Github bietet eine leichtgewichtige IDE, welche vollständig im Browser ausgeführt werden kann. Mit dem webbasierten Editor können durch Dateien und Quellcode Repositorys von GitHub navigieren werden und Codeänderungen vornehmen und übertragen werden. Diese Verwendung des webbasierte Editors ist kostenlos verfügbar.
+Ebenfalls bietet der webbasierte Editor viele der Vorteile von Visual Studio Code, z. B. Suche, Syntaxhervorhebung und eine Versionskontrollansicht. Es bietet ebenfalls Settings Sync, um eigene VS Code-Einstellungen mit dem Editor zu synchronisieren.
+Der webbasierte Editor wird vollständig in der Sandbox Ihres Browsers ausgeführt. Der Editor klont dabei das Repository nicht, sondern verwendet stattdessen die Github Repositories Erweiterung, um die meisten der verwendeten Funktionen auszuführen. Die laufende Anwendung wird dabei  im lokalen Speicher des Browsers gespeichert, bis der Commit erfolgt. Zwischenstände können so ohne regelmäßige commits leicht verloren gehen.
+Zusätzlich zu Github.dev wird von Github noch die online IDE Github Codespaces angeboten, welche nicht kostenfrei genutzt werden kann. Github.dev ist dabei eher als web basierter editor zu verstehen als eine vollwertige Browser IDE  und besitzt daher deutlich weniger Features als Codespaces. Beispielsweise können so für Codespaces verschiedene Performance Tiers für die Entwicklungsumgebung gebucht werden, da Codespaces in einer eigenen dedizietrten VM betrieben wird. Ein wichtiges Feature, welches Codespaces von Github.dev unterscheidet ist das Terminal, welches bei Github.dev nicht vorhanden ist. 
 
 \subsection{stackblitz.com}
-% TODO
+Die Stackblitz Web IDE ist prinzipiell eher auf Web Development ausgelegt. Die online IDE ist dabei an Visual Studio Code angelehnt und ermöglicht es Projekte mit anderen zu teilen, anzusehen oder zu forken. Projekte können ebenfalls in komprimierter Form heruntergeladen werden und auf dem lokalen Rechner gestartet werden.
+Für die Nutzung gibt es keinerlei Beschränkungen hinsichtlich der genutzten Bandbreite und dem Teilen mit andern Usern. Die Bezahlten Subscriptions ermöglichen zusätzlich noch das bearbeiten von privaten Projekten, welche auch in privaten Github Repos liegen können und ermöglichen zusätzlich noch unlimitierte Uploads von von Files. Im höchsten Tier des Abos können zusätzlich neue Features früher genutzt werden und auch zum weiteren Entwicklungsprozess von Stackblitz beigetragen werden. 
+
 
 \subsection{gitpod.io}
-% TODO
-
+Gitpod bietet eine Theia basierte IDE, die ebenfalls Visual Studio Code als Editor verwendet und eine vollständige Betriebssystemumgebung bietet, um dort den entwickelten Code auszuführen. Im Gegensatz zu Github.dev bietet Gitpod ein Terminal Interface, durch welches auch der Container, in welchem Gitpod läuft bearbeitet werden kann.
+Für die Nutzung benötigt Gitpodfür Github und ist mit diesem integriert. Dabei kan prinzipielle jedes Github Repo kann zur Erstellung eines Gitpods verwendet werden, indem eine einfache Gitpod URL daraus gebildet wird. Gitpod bietet ebenfalls eine Google Chrome Erweiterung an, welche in GitHub einen Gitpod Button in Repos erscheinen lässt und den User an die Gitpod URL des Projekts weiterleitet.
 
 \clearpage
 \section{Dokumentation der Projektumsetzung}
